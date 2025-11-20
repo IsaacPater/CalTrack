@@ -1,4 +1,8 @@
+import os
 sair = 0
+pasta_arq = os.path.dirname(os.path.abspath(__file__))
+arq_alimentos = os.path.join(pasta_arq, "alimentos.txt") 
+arq_usuarios = os.path.join(pasta_arq, "usuarios.txt")
 def cadastrar_usuario():
     print("Seja bem-vindo! \nVamos fazer seu cadastro!")
     nome = input("Digite seu nome completo: ") 
@@ -9,7 +13,7 @@ def cadastrar_usuario():
     usr = input("Crie seu nome de usuário: ")  
 
     # Abre o arquivo 'usuarios.txt' em modo leitura e lê todas as linhas. Obs.: o encoding é p n dar erro se tiver acento
-    with open('usuarios.txt', 'r', encoding='utf-8') as arquivo:
+    with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
         usuarios = [linha.strip() for linha in arquivo] # strip() remove espaços em branco (ou quebras de linha) no início e no fim de uma string.
 
     # Inicializa listas que vão guardar emails e nomes de usuário já cadastrados
@@ -43,7 +47,7 @@ def cadastrar_usuario():
     senha = input("Crie uma senha: ") 
 
     # Abre o arquivo em modo append ('a') e adiciona a nova linha com o formato definido
-    with open('usuarios.txt', 'a', encoding='utf-8') as arquivo: # abrir o arquivo com with garante que ele vai ser fechado automaticamente, e é mais seguro
+    with open(arq_usuarios, 'a', encoding='utf-8') as arquivo: # abrir o arquivo com with garante que ele vai ser fechado automaticamente, e é mais seguro
         arquivo.write(f'\nNome: {nome}, Idade: {idade}, Peso: {peso}, Altura: {altura}, Email: {email}, Usuário: {usr}, Senha: {senha}')
 
     # Mensagem final de sucesso no cadastro
@@ -52,10 +56,10 @@ def cadastrar_usuario():
 
 def fazer_login():
     usuario = input("Digite seu nome de usuário: ")
-    snh = input("Digite sua senha: ")
+    snh = input("Digite sua senha: ").strip()
 
     # Lê todas as linhas do arquivo
-    with open('usuarios.txt', 'r', encoding='utf-8') as arquivo:
+    with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
         usuarios = arquivo.readlines()
 
     login_valido = False  # Flag para indicar se o login foi bem-sucedido
@@ -113,10 +117,9 @@ def receitas():
 
 def contador_calorico():
     # Calculadora simples que soma calorias com base em um dicionário de referência
-    caminho = r"C:\Users\diego\python\estudos\CalTrack\alimentos.txt"
     banco = {}
     try:
-        with open(caminho, 'r', encoding='utf-8') as bd:
+        with open(arq_alimentos, 'r', encoding='utf-8') as bd:
             for linha in bd:
                 if ":" in linha:
                     nome, cal = linha.strip().split(":")
@@ -125,26 +128,33 @@ def contador_calorico():
         print(f"Aviso: {bd} não encontrado.")
     for chave, valor in banco.items():
         print(f'{chave}: {valor} cal')
-
-    while True: 
+    kcal = 0
+    while True:
         alimento = input('Digite o alimento ingerido até o momento \nOu 0 para finalizar: ')
         # qtdalimento = int(input(f'Digite a quantidade de {alimento} ingerida: ')) (Pendente...)
         if alimento == '0':
             break 
         # Verifica se o alimento digitado está nas chaves do dicionário e soma as calorias
         for chave, valor in banco.items():
-            if alimento == chave:
+            if alimento in chave:
                 kcal += valor
     # Exibe o total de calorias consumidas
     print(f'Você ingeriu {kcal} calorias hoje.')
-
 
 def contato_nutri():
     # Coleta uma mensagem para o nutricionista (ainda só armazena na variável local)
     print('Digite abaixo a sua mensagem ao nutricionista.')
     msg = input('Mensagem: ')
     print('Mensagem enviada com sucesso. \nAguardando resposta.')
-
+    mostrar = input('Deseja ver a mensagem enviada? [s/n] ')
+    if mostrar == 's':
+        print(f'Mensagem: {msg}')
+    else:
+        print('Sua resposta virá em até 30 dias.')
+    editar = input('Deseja editar a mensagem enviada? [s/n] ')
+    if editar == 's':
+        msg = input('Digite aqui sua mensagem: ')
+        print(f'Mensagem atualizada: {msg}')
 
 def meta():
     print('Digite 1 para ganhar ou 0 para perder peso.')
@@ -161,7 +171,7 @@ def alterar_caracteristicas():
     senha = input("Digite sua senha: ")
 
     # Lê todas as linhas do arquivo para procurar o usuário correspondente
-    with open('usuarios.txt', 'r', encoding='utf-8') as arquivo:
+    with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
         linhas = arquivo.readlines()
 
     usuario_encontrado = False  # Flag para indicar se encontrou o usuário
@@ -191,7 +201,7 @@ def alterar_caracteristicas():
             novas_linhas.append(linha)
 
     # Reescreve todo o arquivo com as linhas atualizadas (substitui o arquivo antigo) usando writelines q é usado quando você tem uma lista de strings (cada string representando uma linha) e quer gravar tudo no arquivo.
-    with open('usuarios.txt', 'w', encoding='utf-8') as arquivo:
+    with open(arq_usuarios, 'w', encoding='utf-8') as arquivo:
         arquivo.writelines(novas_linhas)
 
     # Mensagem final dependendo se o usuário foi encontrado ou não
