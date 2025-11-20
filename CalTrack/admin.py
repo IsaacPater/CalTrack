@@ -12,7 +12,7 @@ def cadastrar_usuario():
     email = input('Digite seu email: ')  
     usr = input("Crie seu nome de usuário: ")  
 
-    # Abre o arquivo 'usuarios.txt' em modo leitura e lê todas as linhas. Obs.: o encoding é p n dar erro se tiver acento
+    # Abre o arquivo 'usuarios.txt' em modo leitura e lê todas as linhas. Obs.: o encoding é p n dar erro se tiver acento.
     with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
         usuarios = [linha.strip() for linha in arquivo] # strip() remove espaços em branco (ou quebras de linha) no início e no fim de uma string.
 
@@ -33,12 +33,12 @@ def cadastrar_usuario():
                 usuario_existente = parte.replace('Usuário: ', '').strip()
                 usuarios_existentes.append(usuario_existente)
 
-    # Enquanto o email digitado estiver na lista de emails existentes, pede outro email
+    # Enquanto o email digitado estiver na lista de emails existentes, pede outro email.
     while email in emails_existentes:
         print("Email já cadastrado, tente outro.")
         email = input('Digite seu email: ')
 
-    # Enquanto o nome de usuário digitado já existir, pede outro nome de usuário
+    # Enquanto o nome de usuário digitado já existir, pede outro nome de usuário.
     while usr in usuarios_existentes:
         print("Nome de usuário já cadastrado, tente outro.")
         usr = input("Crie seu nome de usuário: ")
