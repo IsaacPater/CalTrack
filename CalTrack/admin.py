@@ -76,9 +76,8 @@ def fazer_login():
         print(" MENU ")
         print("1 - Receitas")
         print("2 - Calculadora de calorias")
-        print("3 - Nutricionista")
-        print("4 - Meta diária")
-        print("5 - Alterar peso e altura")
+        print("3 - Meta diária")
+        print("4 - Alterar peso e altura")
         print("0 - Sair")
         
         opc = int(input("Qual a opção desejada? : "))  # Pede a opção do menu
@@ -87,10 +86,8 @@ def fazer_login():
         elif opc == 2:
             contador_calorico()  # Chama função contador_calorico
         elif opc == 3:
-            contato_nutri()  # Chama função contato_nutri
-        elif opc == 4:
             meta()  # Chama função meta
-        elif opc == 5:
+        elif opc == 4:
             alterar_caracteristicas()  # Chama função para alterar peso/altura
         elif opc == 0:
             confirma = input("Deseja mesmo sair? \n('sim'/'não'): ").lower()  # Confirma saída
@@ -140,21 +137,6 @@ def contador_calorico():
                 kcal += valor
     # Exibe o total de calorias consumidas
     print(f'Você ingeriu {kcal} calorias hoje.')
-
-def contato_nutri():
-    # Coleta uma mensagem para o nutricionista (ainda só armazena na variável local)
-    print('Digite abaixo a sua mensagem ao nutricionista.')
-    msg = input('Mensagem: ')
-    print('Mensagem enviada com sucesso. \nAguardando resposta.')
-    mostrar = input('Deseja ver a mensagem enviada? [s/n] ')
-    if mostrar == 's':
-        print(f'Mensagem: {msg}')
-    else:
-        print('Sua resposta virá em até 30 dias.')
-    editar = input('Deseja editar a mensagem enviada? [s/n] ')
-    if editar == 's':
-        msg = input('Digite aqui sua mensagem: ')
-        print(f'Mensagem atualizada: {msg}')
 
 def meta():
     print('Digite 1 para ganhar ou 0 para perder peso.')
