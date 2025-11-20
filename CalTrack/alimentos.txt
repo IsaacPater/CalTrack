@@ -1,0 +1,50 @@
+banana:89
+maçã:52
+pera:57
+uva:69
+abacate:160
+laranja:43
+mamão:39
+melancia:30
+abacaxi:50
+manga:60
+morango:32
+jaca:80
+mexerica:65
+arroz integral:124
+feijão:127
+lentilha:116
+grão-de-bico:164
+ervilha:81
+quinoa:120
+batata-doce:86
+inhame:118
+aveia:389
+frango grelhado:165
+peito de peru:135
+ovo:68
+atum:132
+salmão:208
+tilápia:96
+sardinha:80
+carne magra:217
+pão integral:69
+torrada integral:40
+brócolis:34
+cenoura:41
+tomate:18
+pepino:12
+alface:5
+espinafre:23
+couve:33
+abobrinha:16
+berinjela:25
+pimentão:26
+amêndoas:579
+nozes:607
+castanha-do-pará:656
+pistache:562
+azeite de oliva:884
+iogurte natural:61
+queijo branco:98
+salada verde:15
