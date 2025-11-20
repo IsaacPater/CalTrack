@@ -113,16 +113,27 @@ def receitas():
 
 def contador_calorico():
     # Calculadora simples que soma calorias com base em um dicionário de referência
-    kcal = 0 
-    inf_nutri = {'Leite (200 ml)': 130, 'Iogurte natural (150 g)': 104, 'Mussarela (28 g)': 85, 'Pão francês (25 g)': 126}
+    caminho = r"C:\Users\diego\python\estudos\CalTrack\alimentos.txt"
+    banco = {}
+    try:
+        with open(caminho, 'r', encoding='utf-8') as bd:
+            for linha in bd:
+                if ":" in linha:
+                    nome, cal = linha.strip().split(":")
+                    banco[nome.lower()] = int(cal)
+    except FileNotFoundError:
+        print(f"Aviso: {bd} não encontrado.")
+    for chave, valor in banco.items():
+        print(f'{chave}: {valor} cal')
+
     while True: 
         alimento = input('Digite o alimento ingerido até o momento \nOu 0 para finalizar: ')
         # qtdalimento = int(input(f'Digite a quantidade de {alimento} ingerida: ')) (Pendente...)
         if alimento == '0':
             break 
         # Verifica se o alimento digitado está nas chaves do dicionário e soma as calorias
-        for chave, valor in inf_nutri.items():
-            if alimento in chave:
+        for chave, valor in banco.items():
+            if alimento == chave:
                 kcal += valor
     # Exibe o total de calorias consumidas
     print(f'Você ingeriu {kcal} calorias hoje.')
