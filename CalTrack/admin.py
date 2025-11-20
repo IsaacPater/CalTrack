@@ -3,14 +3,45 @@ sair = 0
 pasta_arq = os.path.dirname(os.path.abspath(__file__))
 arq_alimentos = os.path.join(pasta_arq, "alimentos.txt") 
 arq_usuarios = os.path.join(pasta_arq, "usuarios.txt")
+
 def cadastrar_usuario():
     print("Seja bem-vindo! \nVamos fazer seu cadastro!")
-    nome = input("Digite seu nome completo: ") 
-    idade = int(input("Digite sua idade: "))    
-    peso = float(input('Digite seu peso (em KG): '))  
-    altura = float(input('Digite sua altura (em metros): ')) 
-    email = input('Digite seu email: ')  
-    usr = input("Crie seu nome de usuário: ")  
+
+    while True:
+        nome = input("Digite seu nome completo: ").strip()
+        if all(parte.isalpha() for parte in nome.split()):
+            break
+        else:
+            print("⚠️ Entrada inválida! Digite apenas letras (sem números ou símbolos).")
+
+    idade = ""
+    while not idade.isdigit():
+        idade = input("Digite sua idade: ")
+        if not idade.isdigit():
+            print("⚠️ Entrada inválida! Digite apenas números inteiros.")
+    idade = int(idade)
+
+    while True:
+        peso = input("Digite seu peso (em KG): ").replace(",", ".")
+        if peso.replace(".", "", 1).isdigit():
+            peso = float(peso)
+            break
+        else:
+            print("⚠️ Entrada inválida! Digite apenas números (ex: 70.5).")
+
+    while True:
+        altura = input("Digite sua altura (em metros): ").replace(",", ".")
+        if altura.replace(".", "", 1).isdigit():
+            altura = float(altura)
+            break
+        else:
+            print("⚠️ Entrada inválida! Digite apenas números (ex: 1.75).")
+
+    email = input("Digite seu email: ")
+    usr = input("Crie seu nome de usuário: ")
+
+    print("\n✅ Cadastro realizado com sucesso!")
+    print(f"Usuário: {usr}, Nome: {nome}, Idade: {idade}, Peso: {peso}kg, Altura: {altura}m, Email: {email}")
 
     # Abre o arquivo 'usuarios.txt' em modo leitura e lê todas as linhas. Obs.: o encoding é p n dar erro se tiver acento.
     with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
@@ -62,49 +93,54 @@ def fazer_login():
     with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
         usuarios = arquivo.readlines()
 
-    login_valido = False  # Flag para indicar se o login foi bem-sucedido
+    login_valido = False
 
-    # Percorre cada linha do arquivo procurando uma linha que contenha tanto Usuário quanto Senha
     for linha in usuarios:
         if f"Usuário: {usuario}" in linha and f"Senha: {snh}" in linha:
             login_valido = True
-            break  # Para o loop ao encontrar correspondência
+            break
 
     if login_valido:
-        # Se login válido, exibe menu de opções
-        print(f"Login realizado com sucesso! Bem-vindo(a), {usuario}!")
-        print(" MENU ")
-        print("1 - Receitas")
-        print("2 - Calculadora de calorias")
-        print("3 - Meta diária")
-        print("4 - Alterar peso e altura")
-        print("0 - Sair")
-        
-        opc = int(input("Qual a opção desejada? : "))  # Pede a opção do menu
-        if opc == 1:
-            receitas()  # Chama função receitas
-        elif opc == 2:
-            contador_calorico()  # Chama função contador_calorico
-        elif opc == 3:
-            meta()  # Chama função meta
-        elif opc == 4:
-            alterar_caracteristicas()  # Chama função para alterar peso/altura
-        elif opc == 0:
-            confirma = input("Deseja mesmo sair? \n('sim'/'não'): ").lower()  # Confirma saída
-            if confirma == 'sim':
-                print('Desconectando...')
-        else:
-            print("Opção inválida.")  # Trata opção incorreta do menu
-    else:
-        # Se login inválido, avisa o usuário
-        print("Usuário ou senha incorretos.")
+        print(f"\n✅ Login realizado com sucesso! Bem-vindo(a), {usuario}!")
 
+        # LOOP do menu principal
+        while True:
+            print("\n" + "="*40)
+            print(" MENU PRINCIPAL ")
+            print("1 - Receitas")
+            print("2 - Calculadora de calorias")
+            print("3 - Meta diária")
+            print("4 - Alterar peso e altura")
+            print("0 - Sair")
+            print("="*40)
+
+            opc = input("Qual a opção desejada? : ").strip()
+
+            if opc == "1":
+                receitas()
+            elif opc == "2":
+                contador_calorico()
+            elif opc == "3":
+                meta()
+            elif opc == "4":
+                alterar_caracteristicas()
+            elif opc == "0":
+                confirma = input("Deseja mesmo sair? ('sim'/'não'): ").lower()
+                if confirma == "sim":
+                    print("Desconectando...")
+                    break  # Sai do menu principal
+            else:
+                print("⚠️ Opção inválida. Tente novamente.")
+    else:
+        print("❌ Usuário ou senha incorretos.")
 
 # ----------- Funções do Menu Principal -----------
 def receitas():
-    print("Receitas:")
+    print("\n=== Receitas ===")
     print("- Feijoada com carne")
-    print("Cozinhe o feijão e a carne juntos.")
+    print("  Cozinhe o feijão e a carne juntos.\n")
+
+    input("Pressione ENTER para voltar ao menu principal...")
 
     """filtro = ['Leite', 'Iogurte natural', 'Mussarela', 'Pão francês']
     alim = input("Digite os alimentos que você tem em casa: ")
@@ -122,12 +158,12 @@ def contador_calorico():
                     nome, cal = linha.strip().split(":")
                     banco[nome.lower()] = int(cal)
     except FileNotFoundError:
-        print(f"Aviso: {bd} não encontrado.")
+        print(f"\nAviso: {bd} não encontrado.")
     for chave, valor in banco.items():
         print(f'{chave}: {valor} cal')
     kcal = 0
     while True:
-        alimento = input('Digite o alimento ingerido até o momento \nOu 0 para finalizar: ')
+        alimento = input('\nDigite o alimento ingerido até o momento \nOu 0 para finalizar: ')
         # qtdalimento = int(input(f'Digite a quantidade de {alimento} ingerida: ')) (Pendente...)
         if alimento == '0':
             break 
@@ -136,7 +172,7 @@ def contador_calorico():
             if alimento in chave:
                 kcal += valor
     # Exibe o total de calorias consumidas
-    print(f'Você ingeriu {kcal} calorias hoje.')
+    print(f'\nVocê ingeriu {kcal} calorias hoje.')
 
 def meta():
     print('Digite 1 para ganhar ou 0 para perder peso.')

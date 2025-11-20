@@ -3,3 +3,6 @@ Nome: Daniel, Idade: 21, Peso: 77.0, Altura: 1.8, Email: danielsilva@gmail.com, 
 Nome: Isaac, Idade: 20, Peso: 75.0, Altura: 1.77, Email: pater04@gmail.com, Usuário: pater04, Senha: 123
 
 Nome: Ricardo Germano Westfal Souza, Idade: 19, Peso: 78.0, Altura: 1.75, Email: 202511240022@ifba.edu.br, Usuário: RikGrma, Senha: MorraIsaac
+Nome: Isaac, Idade: 12, Peso: 12.0, Altura: 12.0, Email: awewqeqeq@fsfs.com, Usuário: isaapater, Senha: 1811050430
+Nome: Isaac CARVALHGO, Idade: 20, Peso: 60.8, Altura: 1.77, Email: isaac@gmail.com, Usuário: IsaacPater04, Senha: 352413
+Nome: isaaac adsd, Idade: 23, Peso: 23412.0, Altura: 123.0, Email: ewqeqweqwe, Usuário: pater08, Senha: 1234

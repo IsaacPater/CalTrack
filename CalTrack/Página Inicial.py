@@ -1,17 +1,27 @@
-sair = 0
-import admin # importando o arquivo admin pra poder usar as funções que estão nele.
-while sair == 0:
-    print("\nOlá! Bem-vindo ao CalTrack!")
+import admin  # Importando o módulo admin para usar suas funções
+
+def exibir_menu():
+    
+    print("\n" + "="*40)
+    print("   Olá! Bem-vindo ao CalTrack!")
+    print("="*40)
     print("Responda com 'sim' ou 'não'.")
     print("Ou digite 0 para sair.\n")
 
-    cad = input("Você é novo por aqui? ").lower() # lower() torna toda a string minúscula, funciona pra evitar erro caso o usuário digite alguma maiúscula.
-    if cad == '0':
-        sair = 1
-        print("Saindo do programa...")
-    elif cad == "sim":
-        admin.cadastrar_usuario() # chamando a função dentro do arquivo admin.
-    elif cad == 'não':
-        admin.fazer_login()
-    else:
-        print("Resposta inválida. Digite 'sim', 'não' ou '0'.")
+def main():
+    while True:
+        exibir_menu()
+        cad = input("Você é novo por aqui? ").strip().lower()
+
+        if cad == '0':
+            print("\nSaindo do programa... Até logo!")
+            break
+        elif cad == "sim":
+            admin.cadastrar_usuario()
+        elif cad == "não":
+            admin.fazer_login()
+        else:
+            print("\n⚠️ Resposta inválida. Digite 'sim', 'não' ou '0'.")
+
+if __name__ == "__main__":
+    main()
