@@ -75,7 +75,14 @@ def cadastrar_usuario():
         usr = input("Crie seu nome de usuário: ")
 
     print("Cadastro válido! Você pode continuar.") 
-    senha = input("Crie uma senha: ") 
+    
+    while True:
+        senha = input("Crie uma senha: ")
+        if len(senha) < 8:
+            print("A senha deve ter no mínimo 8 caracteres. Tente novamente.")
+        else:
+            print("Senha criada com sucesso!")
+            break
 
     # Abre o arquivo em modo append ('a') e adiciona a nova linha com o formato definido
     with open(arq_usuarios, 'a', encoding='utf-8') as arquivo: # abrir o arquivo com with garante que ele vai ser fechado automaticamente, e é mais seguro
@@ -83,7 +90,7 @@ def cadastrar_usuario():
 
     # Mensagem final de sucesso no cadastro
     print(f"Cadastro concluído! Bem-vindo(a), {nome}!")
-
+    input("Pressione ENTER para voltar a página principal...")
 
 def fazer_login():
     usuario = input("Digite seu nome de usuário: ")
@@ -133,6 +140,7 @@ def fazer_login():
                 print("⚠️ Opção inválida. Tente novamente.")
     else:
         print("❌ Usuário ou senha incorretos.")
+        input("Pressione ENTER para voltar a página principal...")
 
 # ----------- Funções do Menu Principal -----------
 def receitas():
