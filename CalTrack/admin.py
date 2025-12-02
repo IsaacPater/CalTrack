@@ -1,9 +1,92 @@
 import os
+
+# ================ ARQUIVOS ================
 sair = 0
 pasta_arq = os.path.dirname(os.path.abspath(__file__))
-arq_alimentos = os.path.join(pasta_arq, "alimentos.txt") 
-arq_usuarios = os.path.join(pasta_arq, "usuarios.txt")
 
+arq_alimentos = os.path.join(pasta_arq, "alimentos.txt")
+arq_usuarios = os.path.join(pasta_arq, "usuarios.txt")
+arq_tentativas = os.path.join(pasta_arq, "tentativas.txt")
+
+# Criar arquivo de tentativas se não existir
+if not os.path.exists(arq_tentativas):
+    with open(arq_tentativas, "w", encoding="utf-8") as f:
+        pass
+
+
+# ================ FUNÇÕES DE TENTATIVAS ================
+def get_tentativas(usuario):
+    with open(arq_tentativas, "r", encoding="utf-8") as f:
+        for linha in f:
+            if ":" in linha:
+                u, t = linha.strip().split(":")
+                if u == usuario:
+                    return int(t)
+    return 0
+
+
+def set_tentativas(usuario, tentativas):
+    linhas = []
+    atualizado = False
+
+    with open(arq_tentativas, "r", encoding="utf-8") as f:
+        for linha in f:
+            if ":" not in linha:
+                continue
+            u, t = linha.strip().split(":")
+            if u == usuario:
+                linhas.append(f"{usuario}:{tentativas}\n")
+                atualizado = True
+            else:
+                linhas.append(linha)
+
+    if not atualizado:
+        linhas.append(f"{usuario}:{tentativas}\n")
+
+    with open(arq_tentativas, "w", encoding="utf-8") as f:
+        f.writelines(linhas)
+
+
+# ================ RECUPERAÇÃO DE SENHA ================
+def recuperar_senha(usuario):
+    print("\n===== RECUPERAÇÃO DE SENHA =====")
+    email = input("Digite o email cadastrado: ")
+
+    with open(arq_usuarios, "r", encoding="utf-8") as f:
+        for linha in f:
+            if f"Usuário: {usuario}" in linha and f"Email: {email}" in linha:
+                print("\n✔ Email encontrado!")
+                nova = input("Digite a nova senha (mínimo 8 caracteres): ")
+
+                while len(nova) < 8:
+                    print("A senha deve ter pelo menos 8 caracteres.")
+                    nova = input("Digite novamente: ")
+
+                partes = linha.strip().split(", ")
+                for i in range(len(partes)):
+                    if partes[i].startswith("Senha:"):
+                        partes[i] = f"Senha: {nova}"
+
+                nova_linha = ", ".join(partes)
+
+                with open(arq_usuarios, "r", encoding="utf-8") as arq:
+                    todas = arq.readlines()
+
+                with open(arq_usuarios, "w", encoding="utf-8") as arq:
+                    for l in todas:
+                        if l.strip() == linha.strip():
+                            arq.write(nova_linha + "\n")
+                        else:
+                            arq.write(l)
+
+                print("\n✅ Senha alterada com sucesso!")
+                set_tentativas(usuario, 0)
+                return
+
+    print("\n❌ Email incorreto.")
+
+
+# ================ CADASTRO ================
 def cadastrar_usuario():
     print("Seja bem-vindo! \nVamos fazer seu cadastro!")
 
@@ -12,13 +95,13 @@ def cadastrar_usuario():
         if all(parte.isalpha() for parte in nome.split()):
             break
         else:
-            print("⚠️ Entrada inválida! Digite apenas letras (sem números ou símbolos).")
+            print("⚠️ Digite apenas letras.")
 
     idade = ""
     while not idade.isdigit():
         idade = input("Digite sua idade: ")
         if not idade.isdigit():
-            print("⚠️ Entrada inválida! Digite apenas números inteiros.")
+            print("⚠️ Digite apenas números.")
     idade = int(idade)
 
     while True:
@@ -27,7 +110,7 @@ def cadastrar_usuario():
             peso = float(peso)
             break
         else:
-            print("⚠️ Entrada inválida! Digite apenas números (ex: 70.5).")
+            print("⚠️ Valor inválido.")
 
     while True:
         altura = input("Digite sua altura (em metros): ").replace(",", ".")
@@ -35,82 +118,85 @@ def cadastrar_usuario():
             altura = float(altura)
             break
         else:
-            print("⚠️ Entrada inválida! Digite apenas números (ex: 1.75).")
+            print("⚠️ Valor inválido.")
 
     email = input("Digite seu email: ")
     usr = input("Crie seu nome de usuário: ")
 
-    print("\n✅ Cadastro realizado com sucesso!")
-    print(f"Usuário: {usr}, Nome: {nome}, Idade: {idade}, Peso: {peso}kg, Altura: {altura}m, Email: {email}")
-
-    # Abre o arquivo 'usuarios.txt' em modo leitura e lê todas as linhas. Obs.: o encoding é p n dar erro se tiver acento.
     with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
-        usuarios = [linha.strip() for linha in arquivo] # strip() remove espaços em branco (ou quebras de linha) no início e no fim de uma string.
+        usuarios = [linha.strip() for linha in arquivo]
 
-    # Inicializa listas que vão guardar emails e nomes de usuário já cadastrados
     emails_existentes = []
     usuarios_existentes = []
 
-    # Para cada linha do arquivo, separa os campos e procura por "Email:" e "Usuário:"
     for linha in usuarios:
-        partes = linha.split(', ')  # o split() divide uma string em partes, criando uma lista com os pedaços separados (cada campo separado por ", ")
+        partes = linha.split(", ")
         for parte in partes:
-            if parte.startswith('Email:'): # startswith() serve para verificar se uma string começa com um determinado texto, que nesse caso é email
-                # Remove o prefixo "Email: " e adiciona só o email à lista
-                email_existente = parte.replace('Email: ', '').strip() # replace() serve para substituir partes de uma string por outra, e aí primeiro c coloca a part antiga e dps a q c quer colocar no lugar, e nesse caso só tá tirando a palavra email do arquivo  
-                emails_existentes.append(email_existente)
-            elif parte.startswith('Usuário:'):
-                # Remove o prefixo "Usuário: " e adiciona o nome de usuário à lista
-                usuario_existente = parte.replace('Usuário: ', '').strip()
-                usuarios_existentes.append(usuario_existente)
+            if parte.startswith("Email:"):
+                emails_existentes.append(parte.replace("Email: ", "").strip())
+            elif parte.startswith("Usuário:"):
+                usuarios_existentes.append(parte.replace("Usuário: ", "").strip())
 
-    # Enquanto o email digitado estiver na lista de emails existentes, pede outro email.
     while email in emails_existentes:
-        print("Email já cadastrado, tente outro.")
-        email = input('Digite seu email: ')
+        print("Email já cadastrado.")
+        email = input("Digite outro email: ")
 
-    # Enquanto o nome de usuário digitado já existir, pede outro nome de usuário.
     while usr in usuarios_existentes:
-        print("Nome de usuário já cadastrado, tente outro.")
-        usr = input("Crie seu nome de usuário: ")
+        print("Usuário já cadastrado.")
+        usr = input("Digite outro nome de usuário: ")
 
-    print("Cadastro válido! Você pode continuar.") 
-    
     while True:
-        senha = input("Crie uma senha: ")
+        senha = input("Crie uma senha (min 8 caracteres): ")
         if len(senha) < 8:
-            print("A senha deve ter no mínimo 8 caracteres. Tente novamente.")
+            print("Senha curta demais.")
         else:
-            print("Senha criada com sucesso!")
             break
 
-    # Abre o arquivo em modo append ('a') e adiciona a nova linha com o formato definido
-    with open(arq_usuarios, 'a', encoding='utf-8') as arquivo: # abrir o arquivo com with garante que ele vai ser fechado automaticamente, e é mais seguro
+    with open(arq_usuarios, 'a', encoding='utf-8') as arquivo:
         arquivo.write(f'\nNome: {nome}, Idade: {idade}, Peso: {peso}, Altura: {altura}, Email: {email}, Usuário: {usr}, Senha: {senha}')
 
-    # Mensagem final de sucesso no cadastro
     print(f"Cadastro concluído! Bem-vindo(a), {nome}!")
-    input("Pressione ENTER para voltar a página principal...")
+    input("ENTER para voltar...")
 
+
+# ================ LOGIN (CORRIGIDO) ================
 def fazer_login():
     usuario = input("Digite seu nome de usuário: ")
+
+    tentativas = get_tentativas(usuario)
+
+    if tentativas >= 5:
+        print("\n⚠ Tentativas esgotadas!")
+        print("👉 Recuperação de senha necessária.")
+        recuperar_senha(usuario)
+        return
+
     snh = input("Digite sua senha: ").strip()
 
-    # Lê todas as linhas do arquivo
     with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
         usuarios = arquivo.readlines()
 
     login_valido = False
 
+    # ----------- CORREÇÃO AQUI -----------
     for linha in usuarios:
-        if f"Usuário: {usuario}" in linha and f"Senha: {snh}" in linha:
+        partes = linha.strip().split(", ")
+        dados = {}
+
+        for parte in partes:
+            if ": " in parte:
+                chave, valor = parte.split(": ", 1)
+                dados[chave] = valor
+
+        if dados.get("Usuário") == usuario and dados.get("Senha") == snh:
             login_valido = True
             break
+    # -------------------------------------
 
     if login_valido:
-        print(f"\n✅ Login realizado com sucesso! Bem-vindo(a), {usuario}!")
+        print(f"\n✅ Login bem-sucedido! Bem-vindo(a), {usuario}!")
+        set_tentativas(usuario, 0)
 
-        # LOOP do menu principal
         while True:
             print("\n" + "="*40)
             print(" MENU PRINCIPAL ")
@@ -121,7 +207,7 @@ def fazer_login():
             print("0 - Sair")
             print("="*40)
 
-            opc = input("Qual a opção desejada? : ").strip()
+            opc = input("Escolha: ").strip()
 
             if opc == "1":
                 receitas()
@@ -132,32 +218,36 @@ def fazer_login():
             elif opc == "4":
                 alterar_caracteristicas()
             elif opc == "0":
-                confirma = input("Deseja mesmo sair? ('sim'/'não'): ").lower()
+                confirma = input("Deseja mesmo sair? (sim/não): ").lower()
                 if confirma == "sim":
-                    print("Desconectando...")
-                    break  # Sai do menu principal
+                    print("Saindo...")
+                    break
             else:
-                print("⚠️ Opção inválida. Tente novamente.")
+                print("Opção inválida.")
     else:
-        print("❌ Usuário ou senha incorretos.")
-        input("Pressione ENTER para voltar a página principal...")
+        tentativas += 1
+        set_tentativas(usuario, tentativas)
 
-# ----------- Funções do Menu Principal -----------
+        print("❌ Usuário ou senha incorretos.")
+
+        if tentativas >= 5:
+            print("\n⚠ Você errou 5 vezes.")
+            op = input("Deseja recuperar a senha? (sim/não): ").strip().lower()
+            if op == "sim":
+                recuperar_senha(usuario)
+
+        input("ENTER para voltar...")
+
+
+# ================ RESTO DO SEU CÓDIGO ================
 def receitas():
     print("\n=== Receitas ===")
     print("- Feijoada com carne")
     print("  Cozinhe o feijão e a carne juntos.\n")
-
-    input("Pressione ENTER para voltar ao menu principal...")
-
-    """filtro = ['Leite', 'Iogurte natural', 'Mussarela', 'Pão francês']
-    alim = input("Digite os alimentos que você tem em casa: ")
-    if alim in filtro:
-    Pendente..."""
+    input("ENTER para voltar...")
 
 
 def contador_calorico():
-    # Calculadora simples que soma calorias com base em um dicionário de referência
     banco = {}
     try:
         with open(arq_alimentos, 'r', encoding='utf-8') as bd:
@@ -167,71 +257,64 @@ def contador_calorico():
                     banco[nome.lower()] = int(cal)
     except FileNotFoundError:
         print(f"\nAviso: {bd} não encontrado.")
+
     for chave, valor in banco.items():
         print(f'{chave}: {valor} cal')
+
     kcal = 0
     while True:
-        alimento = input('\nDigite o alimento ingerido até o momento \nOu 0 para finalizar: ')
-        # qtdalimento = int(input(f'Digite a quantidade de {alimento} ingerida: ')) (Pendente...)
+        alimento = input('\nDigite o alimento ingerido (0 para sair): ').strip().lower()
         if alimento == '0':
-            break 
-        # Verifica se o alimento digitado está nas chaves do dicionário e soma as calorias
+            break
         for chave, valor in banco.items():
             if alimento in chave:
                 kcal += valor
-    # Exibe o total de calorias consumidas
+
     print(f'\nVocê ingeriu {kcal} calorias hoje.')
 
+
 def meta():
-    print('Digite 1 para ganhar ou 0 para perder peso.')
-    info = int(input('Qual o seu objetivo? \nGanhar ou perder peso?'))
+    print("Digite 1 para ganhar ou 0 para perder peso.")
+    info = int(input("Qual seu objetivo? "))
     if info == 0:
-        print('Precisa ingerir menos calorias do que gasta.')
+        print("Para perder peso, consuma menos calorias.")
     else:
-        print('Precisa ingerir mais calorias do que gasta.')
+        print("Para ganhar peso, consuma mais calorias.")
 
 
-# Outras funções de adm 
 def alterar_caracteristicas():
     usuario = input("Digite seu nome de usuário: ")
     senha = input("Digite sua senha: ")
 
-    # Lê todas as linhas do arquivo para procurar o usuário correspondente
     with open(arq_usuarios, 'r', encoding='utf-8') as arquivo:
         linhas = arquivo.readlines()
 
-    usuario_encontrado = False  # Flag para indicar se encontrou o usuário
-    novas_linhas = []  # Lista que vai armazenar as linhas (atualizadas ou não)
+    usuario_encontrado = False
+    novas_linhas = []
 
     for linha in linhas:
-        # Verifica se a linha corresponde ao usuário e à senha fornecidos
         if f"Usuário: {usuario}" in linha and f"Senha: {senha}" in linha:
             usuario_encontrado = True
-            print("\nUsuário encontrado! Você pode alterar seu peso e altura.")
-            novo_peso = float(input("Digite seu novo peso (em KG): "))  # Novo peso
-            nova_altura = float(input("Digite sua nova altura (em metros): "))  # Nova altura
+            print("\nUsuário encontrado!")
+            novo_peso = float(input("Novo peso: "))
+            nova_altura = float(input("Nova altura: "))
 
-            # Divide a linha em campos e atualiza os campos de Peso e Altura
-            partes = linha.strip().split(', ')
+            partes = linha.strip().split(", ")
             for i in range(len(partes)):
                 if partes[i].startswith("Peso:"):
                     partes[i] = f"Peso: {novo_peso}"
                 elif partes[i].startswith("Altura:"):
                     partes[i] = f"Altura: {nova_altura}"
 
-            # Reconstrói a linha com os campos atualizados e adiciona à lista de novas linhas
-            nova_linha = ', '.join(partes)
+            nova_linha = ", ".join(partes)
             novas_linhas.append(nova_linha + "\n")
         else:
-            # Se não for o usuário, mantém a linha original
             novas_linhas.append(linha)
 
-    # Reescreve todo o arquivo com as linhas atualizadas (substitui o arquivo antigo) usando writelines q é usado quando você tem uma lista de strings (cada string representando uma linha) e quer gravar tudo no arquivo.
     with open(arq_usuarios, 'w', encoding='utf-8') as arquivo:
         arquivo.writelines(novas_linhas)
 
-    # Mensagem final dependendo se o usuário foi encontrado ou não
     if usuario_encontrado:
-        print("\n✅ Peso e altura atualizados com sucesso!")
+        print("\nAlterações feitas com sucesso!")
     else:
-        print("\n❌ Usuário ou senha incorretos. Não foi possível alterar os dados.")
+        print("\nUsuário ou senha incorretos.")
