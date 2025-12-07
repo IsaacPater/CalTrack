@@ -1,50 +1,79 @@
-banana:89
-maçã:52
-pera:57
-uva:69
 abacate:160
-laranja:43
-mamão:39
-melancia:30
 abacaxi:50
-manga:60
-morango:32
-jaca:80
-mexerica:65
-arroz integral:124
-feijão:127
-lentilha:116
-grão-de-bico:164
-ervilha:81
-quinoa:120
-batata-doce:86
-inhame:118
-aveia:389
-frango grelhado:165
-peito de peru:135
-ovo:68
-atum:132
-salmão:208
-tilápia:96
-sardinha:80
-carne magra:217
-pão integral:69
-torrada integral:40
-brócolis:34
-cenoura:41
-tomate:18
-pepino:12
-alface:5
-espinafre:23
-couve:33
 abobrinha:16
-berinjela:25
-pimentão:26
+alface:5
+amendoim:567
 amêndoas:579
-nozes:607
-castanha-do-pará:656
-pistache:562
+atum:132
+aveia:389
+avelã:628
+azeite:884
 azeite de oliva:884
+banana:89
+banha de porco:900
+batata doce:86
+batata-inglesa:58
+berinjela:25
+brócolis:34
+carne magra:217
+carne – lombo suíno:242
+castanha-do-pará:656
+cenoura:41
+chocolate amargo (70%):579
+coco (óleo de coco):892
+couve:33
+couve-flor:25
+ervilha:81
+espinafre:23
+farinha de linhaça:534
+feijão (média):127
+feijão carioca cozido:76
+frango grelhado:165
+grão-de-bico cozido:164
+inhame:118
+iogurte desnatado:55
 iogurte natural:61
+jaca:80
+kefir de leite:55
+laranja:43
+leite desnatado:42
+leite em pó integral:496
+leite integral:61
+lentilha cozida:116
+mamão:39
+manga:60
+manteiga:717
+melancia:30
+mexerica:65
+milho de pipoca (grão cru):375
+morango:32
+mussarela:280
+nozes:607
+ovo (cru ou geral):68
+ovo cozido:155
+patinho:219
+peito de frango cozido:165
+peito de peru:135
+pepino:12
+pera:57
+pimentão:26
+pistache:562
+pão francês:270
+pão integral:69
 queijo branco:98
+queijo cottage:98
+queijo minas:264
+quinoa cozida:120
+ricota:150
 salada verde:15
+salmão (geral):208
+salmão grelhado:208
+sardinha:80
+sementes (média):500
+soja cozida:141
+tapioca (massa):160
+tilápia:96
+tomate:18
+torrada integral:40
+uva:69
+vagem:31
