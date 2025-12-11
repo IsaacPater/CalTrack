@@ -1,3 +1,2 @@
 Nome: Administrador, Idade: 30, Peso: 70.0, Altura: 1.75, Email: admin@caltrack.com, Usuário: admin, Senha: admin123, Tipo: admin
-Nome: Isaac Carvalho Paternostro, Idade: 20, Peso: 60.0, Altura: 1.76, Email: isaacpaternostro2005@gmail.com, Usuário: IsaacPater, Senha: 352413352413, Tipo: usuario
-Nome: Rick, Idade: 19, Peso: 75.0, Altura: 1.75, Email: idk3@gmail.com, Usuário: rick123, Senha: 12345678, Tipo: usuario
+Nome: Isaac Carvalho Paternostro, Idade: 20, Peso: 60.0, Altura: 1.76, Sexo: masculino, Email: isaacpaternostro2005@gmail.com, Usuário: IsaacPater04, Senha: 352413352413, Tipo: usuario

@@ -263,6 +263,21 @@ def cadastrar_usuario():
         else:
             print("⚠️ Valor inválido.")
 
+    print("Informe seu sexo:")
+    print("1 - Masculino")
+    print("2 - Feminino")
+
+    while True:
+        sexo = input("Escolha (1 ou 2): ").strip()
+        if sexo == "1":
+            sexo = "masculino"
+            break
+        elif sexo == "2":
+            sexo = "feminino"
+            break
+        else:
+            print("⚠️ Opção inválida. Digite 1 ou 2.")
+
     email = input("Digite seu email: ")
     usr = input("Crie seu nome de usuário: ")
 
@@ -297,7 +312,7 @@ def cadastrar_usuario():
 
     with open(arq_usuarios, "a", encoding="utf-8") as arquivo:
         arquivo.write(
-            f"Nome: {nome}, Idade: {idade}, Peso: {peso}, Altura: {altura}, Email: {email}, Usuário: {usr}, Senha: {senha}, Tipo: usuario\n"
+            f"Nome: {nome}, Idade: {idade}, Peso: {peso}, Altura: {altura}, Sexo: {sexo}, Email: {email}, Usuário: {usr}, Senha: {senha}, Tipo: usuario\n"
         )
 
     print(f"\n✅ Cadastro concluído! Bem-vindo(a), {nome}!")
