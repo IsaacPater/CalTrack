@@ -1127,6 +1127,73 @@ def meta():
     print("\n" + "=" * 40)
     print("   META DIÁRIA")
     print("=" * 40)
+
+    # ======== LER ÚLTIMO USUÁRIO DO ARQUIVO ========
+    try:
+        with open(arq_usuarios, "r", encoding="utf-8") as arquivo:
+            linhas = arquivo.readlines()
+            if not linhas:
+                print("❌ Nenhum usuário cadastrado.")
+                return
+            ultimo = linhas[-1]  # lê o ÚLTIMO usuário cadastrado
+    except FileNotFoundError:
+        print("❌ Arquivo de usuários não encontrado.")
+        return
+
+    # ======== EXTRAIR DADOS ========
+    dados = {}
+    partes = ultimo.split(", ")
+    for parte in partes:
+        if ":" in parte:
+            chave, valor = parte.split(": ")
+            dados[chave.strip()] = valor.strip()
+
+    try:
+        peso = float(dados["Peso"])
+        altura = float(dados["Altura"])
+        idade = int(dados["Idade"])
+        sexo = dados["Sexo"].upper()
+    except KeyError:
+        print("❌ Erro: arquivo não contém todos os dados necessários.")
+        return
+
+    # ======== PERGUNTAR ATIVIDADE ========
+    print("\nNível de atividade física:")
+    print("1 - Sedentário")
+    print("2 - Leve (1-3x/semana)")
+    print("3 - Moderado (3-5x/semana)")
+    print("4 - Intenso (6-7x/semana)")
+
+    fator = 1.2  # padrão sedentário
+    while True:
+        nivel = input("Escolha (1-4): ").strip()
+        if nivel == "1":
+            fator = 1.2
+            break
+        elif nivel == "2":
+            fator = 1.375
+            break
+        elif nivel == "3":
+            fator = 1.55
+            break
+        elif nivel == "4":
+            fator = 1.725
+            break
+        else:
+            print("⚠️ Escolha inválida. Digite 1, 2, 3 ou 4.")
+
+    # ======== HARRIS-BENEDICT ========
+    if sexo == "M":
+        tmb = 88.36 + (13.4 * peso) + (4.8 * altura * 100) - (5.7 * idade)
+    else:
+        tmb = 447.6 + (9.2 * peso) + (3.1 * altura * 100) - (4.3 * idade)
+
+    calorias_dia = tmb * fator
+
+    print("\n🔥 Suas calorias diárias estimadas:")
+    print(f"➡️ {calorias_dia:.0f} kcal/dia")
+
+    # ======== PARTE ORIGINAL ========
     print("\nDigite 1 para GANHAR peso ou 0 para PERDER peso.")
 
     while True:
@@ -1139,16 +1206,15 @@ def meta():
 
     if info == 0:
         print("\n📉 Para PERDER peso:")
-        print("   • Consuma MENOS calorias do que gasta")
-        print("   • Recomendado: déficit de 300-500 kcal/dia")
-        print("   • Pratique exercícios regularmente")
+        print(f"   • Consuma entre {calorias_dia - 500:.0f} e {calorias_dia - 300:.0f} kcal/dia")
+        print("   • Déficit recomendado: 300–500 kcal/dia")
     else:
         print("\n📈 Para GANHAR peso:")
-        print("   • Consuma MAIS calorias do que gasta")
-        print("   • Recomendado: superávit de 300-500 kcal/dia")
-        print("   • Foque em alimentos nutritivos")
+        print(f"   • Consuma entre {calorias_dia + 300:.0f} e {calorias_dia + 500:.0f} kcal/dia")
+        print("   • Superávit recomendado: 300–500 kcal/dia")
 
     input("\nPressione ENTER para continuar...")
+
 
 
 # ================ ALTERAR CARACTERÍSTICAS ================
