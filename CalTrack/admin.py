@@ -437,7 +437,7 @@ def menu_usuario(usuario):
         elif opc == "3":
             ver_historico_calorias(usuario)
         elif opc == "4":
-            meta()
+            meta(usuario)
         elif opc == "5":
             alterar_caracteristicas(usuario)
         elif opc == "6":
@@ -1123,30 +1123,37 @@ def editar_historico_calorias(usuario):
 
 
 # ================ META DIÁRIA ================
-def meta():
+def meta(usuario_logado):
     print("\n" + "=" * 40)
     print("   META DIÁRIA")
     print("=" * 40)
 
-    # ======== LER ÚLTIMO USUÁRIO DO ARQUIVO ========
+    # ======== LER USUÁRIO NO ARQUIVO ========
     try:
         with open(arq_usuarios, "r", encoding="utf-8") as arquivo:
             linhas = arquivo.readlines()
-            if not linhas:
-                print("❌ Nenhum usuário cadastrado.")
-                return
-            ultimo = linhas[-1]  # lê o ÚLTIMO usuário cadastrado
     except FileNotFoundError:
         print("❌ Arquivo de usuários não encontrado.")
         return
 
+    dados_usuario = None
+
+    for linha in linhas:
+        if f"Usuário: {usuario_logado}" in linha:
+            dados_usuario = linha
+            break
+
+    if dados_usuario is None:
+        print("❌ Usuário não encontrado no arquivo.")
+        return
+
     # ======== EXTRAIR DADOS ========
     dados = {}
-    partes = ultimo.split(", ")
+    partes = dados_usuario.split(", ")
     for parte in partes:
-        if ":" in parte:
-            chave, valor = parte.split(": ")
-            dados[chave.strip()] = valor.strip()
+        if ": " in parte:
+            chave, valor = parte.split(": ", 1)
+            dados[chave] = valor
 
     try:
         peso = float(dados["Peso"])
@@ -1154,7 +1161,7 @@ def meta():
         idade = int(dados["Idade"])
         sexo = dados["Sexo"].upper()
     except KeyError:
-        print("❌ Erro: arquivo não contém todos os dados necessários.")
+        print("❌ Dados do usuário estão incompletos.")
         return
 
     # ======== PERGUNTAR ATIVIDADE ========
@@ -1164,56 +1171,52 @@ def meta():
     print("3 - Moderado (3-5x/semana)")
     print("4 - Intenso (6-7x/semana)")
 
-    fator = 1.2  # padrão sedentário
     while True:
-        nivel = input("Escolha (1-4): ").strip()
-        if nivel == "1":
+        atividade = input("Escolha (1-4): ").strip()
+        if atividade == "1":
             fator = 1.2
             break
-        elif nivel == "2":
+        elif atividade == "2":
             fator = 1.375
             break
-        elif nivel == "3":
+        elif atividade == "3":
             fator = 1.55
             break
-        elif nivel == "4":
+        elif atividade == "4":
             fator = 1.725
             break
         else:
-            print("⚠️ Escolha inválida. Digite 1, 2, 3 ou 4.")
+            print("⚠️ Opção inválida. Escolha 1, 2, 3 ou 4.")
 
-    # ======== HARRIS-BENEDICT ========
+    # ======== CALCULAR TMB (HARRIS-BENEDICT) ========
     if sexo == "M":
-        tmb = 88.36 + (13.4 * peso) + (4.8 * altura * 100) - (5.7 * idade)
+        tmb = 88.36 + (13.4 * peso) + (4.8 * (altura * 100)) - (5.7 * idade)
     else:
-        tmb = 447.6 + (9.2 * peso) + (3.1 * altura * 100) - (4.3 * idade)
+        tmb = 447.6 + (9.2 * peso) + (3.1 * (altura * 100)) - (4.3 * idade)
 
-    calorias_dia = tmb * fator
+    calorias = tmb * fator
 
-    print("\n🔥 Suas calorias diárias estimadas:")
-    print(f"➡️ {calorias_dia:.0f} kcal/dia")
+    print(f"\n🔥 Gasto diário estimado: {calorias:.0f} kcal/dia")
 
-    # ======== PARTE ORIGINAL ========
+    # ======== OBJETIVO ========
     print("\nDigite 1 para GANHAR peso ou 0 para PERDER peso.")
 
     while True:
-        info = input("Qual seu objetivo? ").strip()
-        if info in ["0", "1"]:
-            info = int(info)
+        objetivo = input("Qual seu objetivo? ").strip()
+        if objetivo in ["0", "1"]:
+            objetivo = int(objetivo)
             break
-        else:
-            print("⚠️ Digite apenas 0 ou 1.")
+        print("⚠️ Digite apenas 0 ou 1.")
 
-    if info == 0:
-        print("\n📉 Para PERDER peso:")
-        print(f"   • Consuma entre {calorias_dia - 500:.0f} e {calorias_dia - 300:.0f} kcal/dia")
-        print("   • Déficit recomendado: 300–500 kcal/dia")
+    if objetivo == 0:
+        print("\n📉 META PARA PERDER PESO:")
+        print(f"   • Consumo recomendado: {calorias - 500:.0f} a {calorias - 300:.0f} kcal/dia")
     else:
-        print("\n📈 Para GANHAR peso:")
-        print(f"   • Consuma entre {calorias_dia + 300:.0f} e {calorias_dia + 500:.0f} kcal/dia")
-        print("   • Superávit recomendado: 300–500 kcal/dia")
+        print("\n📈 META PARA GANHAR PESO:")
+        print(f"   • Consumo recomendado: {calorias + 300:.0f} a {calorias + 500:.0f} kcal/dia")
 
     input("\nPressione ENTER para continuar...")
+
 
 
 
