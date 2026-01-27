@@ -20,22 +20,28 @@ def exibir_menu():
 
 def main():
     while True:
+        admin.clear()
         exibir_menu()
         cad = input("\n👉 Sua escolha: ").strip().lower()
 
         if cad == '0':
+            admin.clear()
             print("\n" + "="*50)
             print("   Obrigado por usar o CalTrack!")
             print("   Até logo! 👋")
             print("="*50)
             break
         elif cad == "sim":
+            admin.clear()
             admin.cadastrar_usuario()
         elif cad == "não" or cad == "nao":
+            admin.clear()
             admin.fazer_login()
         elif cad == "senha":
+            admin.clear()
             admin.recuperar_senha_menu()
         else:
+            admin.clear()
             print("\n⚠️ Resposta inválida. Digite 'sim', 'não', 'senha' ou '0'.")
             input("\nPressione ENTER para continuar...")
 

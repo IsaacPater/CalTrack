@@ -1,0 +1,1 @@
+Nome: Administrador, Idade: 30, Peso: 70.0, Altura: 1.75, Email: admin@caltrack.com, Usuário: admin, Senha: admin123, Tipo: admin

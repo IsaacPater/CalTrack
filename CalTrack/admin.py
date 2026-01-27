@@ -23,6 +23,8 @@ if not os.path.exists(arq_usuarios):
             "Nome: Administrador, Idade: 30, Peso: 70.0, Altura: 1.75, Email: admin@caltrack.com, Usuário: admin, Senha: admin123, Tipo: admin\n"
         )
 
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 # ================ FUNÇÕES DE TENTATIVAS ================
 def get_tentativas(usuario):
@@ -416,6 +418,7 @@ def menu_admin(usuario):
 # ================ MENU USUÁRIO ================
 def menu_usuario(usuario):
     while True:
+        clear()
         print("\n" + "=" * 40)
         print("   MENU PRINCIPAL")
         print("=" * 40)
@@ -825,6 +828,7 @@ def deletar_receita():
 
 
 def ver_receitas():
+    clear()
     print("\n" + "=" * 40)
     print("   RECEITAS DISPONÍVEIS")
     print("=" * 40)
@@ -848,10 +852,11 @@ def ver_receitas():
         print("Arquivo de receitas não encontrado.")
 
     input("\nPressione ENTER para continuar...")
-
+    clear()
 
 # ================ CONTADOR DE CALORIAS ================
 def contador_calorico(usuario):
+    clear()
     print("\n" + "=" * 40)
     print("   CONTADOR DE CALORIAS")
     print("=" * 40)
@@ -912,10 +917,11 @@ def contador_calorico(usuario):
     print("Registros salvos com sucesso!")
 
     input("\nPressione ENTER para continuar...")
-
+    clear()
 
 # ================ VER HISTÓRICO DE CALORIAS ================
 def ver_historico_calorias(usuario):
+    clear()
     print("\n" + "=" * 40)
     print("   HISTÓRICO DE CALORIAS")
     print("=" * 40)
@@ -959,11 +965,12 @@ def ver_historico_calorias(usuario):
         print("\nNenhum histórico encontrado.")
 
     input("\nPressione ENTER para continuar...")
-
+    clear()
 
 # ================ EDITAR HISTÓRICO DE CALORIAS ================
 def editar_historico_calorias(usuario):
     """Permite editar ou deletar registros do histórico de calorias"""
+    clear()
     print("\n" + "=" * 40)
     print("   EDITAR HISTÓRICO DE CALORIAS")
     print("=" * 40)
@@ -1120,10 +1127,11 @@ def editar_historico_calorias(usuario):
         print(f"\n❌ Erro ao editar histórico: {e}")
 
     input("\nPressione ENTER para continuar...")
-
+    clear()
 
 # ================ META DIÁRIA ================
 def meta(usuario_logado):
+    clear()
     print("\n" + "=" * 40)
     print("   META DIÁRIA")
     print("=" * 40)
@@ -1216,16 +1224,17 @@ def meta(usuario_logado):
         print(f"   • Consumo recomendado: {calorias + 300:.0f} a {calorias + 500:.0f} kcal/dia")
 
     input("\nPressione ENTER para continuar...")
-
+    clear()
 
 
 
 # ================ ALTERAR CARACTERÍSTICAS ================
 def alterar_caracteristicas(usuario):
+    clear()
     print("\n" + "=" * 40)
     print("   ALTERAR PESO E ALTURA")
     print("=" * 40)
-
+    
     senha = input("\nDigite sua senha para confirmar: ")
 
     with open(arq_usuarios, "r", encoding="utf-8") as arquivo:
@@ -1276,3 +1285,4 @@ def alterar_caracteristicas(usuario):
         print("\n❌ Senha incorreta.")
 
     input("\nPressione ENTER para continuar...")
+    clear()
