@@ -1,7 +1,10 @@
 import os
+import json
 from datetime import datetime
 
 # ================ ARQUIVOS ================
+DB = "alimentos.json"
+
 pasta_arq = os.path.dirname(os.path.abspath(__file__))
 
 arq_alimentos = os.path.join(pasta_arq, "alimentos.txt")
@@ -391,6 +394,7 @@ def menu_admin(usuario):
         print("3 - Gerenciar Receitas")
         print("4 - Contador de Calorias")
         print("5 - Ver Receitas")
+        print("6 - Visualizar Alimentos Sugeridos")
         print("0 - Sair")
         print("=" * 70)
 
@@ -406,6 +410,8 @@ def menu_admin(usuario):
             contador_calorico(usuario)
         elif opc == "5":
             ver_receitas()
+        elif opc == "6":
+            visualizar_sugestoes()
         elif opc == "0":
             confirma = input("Deseja mesmo sair? (sim/não): ").lower()
             if confirma == "sim":
@@ -439,6 +445,7 @@ def menu_usuario(usuario):
         print("4 - Meta Diária")
         print("5 - Alterar Peso e Altura")
         print("6 - Editar Histórico de Calorias")
+        print("7 - Sugerir Alimentos")
         print("0 - Sair")
         print("=" * 70)
 
@@ -456,6 +463,8 @@ def menu_usuario(usuario):
             alterar_caracteristicas(usuario)
         elif opc == "6":
             editar_historico_calorias(usuario)
+        elif opc == "7":
+            sugerir_alimento()
         elif opc == "0":
             confirma = input("Deseja mesmo sair? (sim/não): ").lower()
             if confirma == "sim":
@@ -951,6 +960,55 @@ def contador_calorico(usuario):
 
     input("\nPressione ENTER para continuar...")
     clear()
+# ================ SUGERIR ALIMENTO ==================
+
+def carregar():
+    if not os.path.exists(DB):
+        return []
+    with open(DB, "r", encoding="utf-8") as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return []
+
+def salvar(lista):
+    with open(DB, "w", encoding="utf-8") as f:
+        json.dump(lista, f, ensure_ascii=False, indent=4)
+
+def sugerir_alimento():
+    alimentos = carregar()
+
+    nome = input("Digite o nome do alimento que deseja sugerir: ").strip()
+
+    if not nome:
+        print("O nome do alimento não pode ser vazio.")
+        return
+
+    sugestao = {
+        "nome": nome,
+        "status": "pendente"
+    }
+
+    alimentos.append(sugestao)
+    salvar(alimentos)
+
+    print("Alimento sugerido com sucesso!")
+    input("\nPressione ENTER para voltar...")
+
+
+def visualizar_sugestoes():
+    alimentos = carregar()
+
+    sugestoes = [a for a in alimentos if a.get("status") == "pendente"]
+
+    if not sugestoes:
+        print("Nenhuma sugestão de alimento encontrada.")
+        return
+
+    print("\n--- Sugestões de Alimentos ---")
+    for i, alimento in enumerate(sugestoes, start=1):
+        print(f"{i}. {alimento['nome']}")
+
 
 # ================ VER HISTÓRICO DE CALORIAS ================
 def ver_historico_calorias(usuario):
