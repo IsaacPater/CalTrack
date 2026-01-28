@@ -169,9 +169,9 @@ def recuperar_senha(usuario):
 # ================ RECUPERAÇÃO DE SENHA (MENU PRINCIPAL) ================
 def recuperar_senha_menu():
     """Permite recuperar senha direto do menu principal"""
-    print("\n" + "=" * 40)
+    print("\n" + "=" * 70)
     print("   REDEFINIR SENHA")
-    print("=" * 40)
+    print("=" * 70)
     
     usuario = input("\nDigite seu nome de usuário: ").strip()
     
@@ -231,9 +231,9 @@ def recuperar_senha_menu():
 
 # ================ CADASTRO ================
 def cadastrar_usuario():
-    print("\n" + "=" * 40)
-    print("   CADASTRO DE NOVO USUÁRIO")
-    print("=" * 40)
+    
+    print("CADASTRO DE NOVO USUÁRIO".center(70))
+    print("=" * 70)
 
     while True:
         nome = input("Digite seu nome completo: ").strip()
@@ -383,16 +383,16 @@ def fazer_login():
 # ================ MENU ADMIN ================
 def menu_admin(usuario):
     while True:
-        print("\n" + "=" * 40)
+        print("\n" + "=" * 70)
         print("   MENU ADMINISTRADOR")
-        print("=" * 40)
+        print("=" * 70)
         print("1 - Gerenciar Usuários")
         print("2 - Gerenciar Alimentos")
         print("3 - Gerenciar Receitas")
         print("4 - Contador de Calorias")
         print("5 - Ver Receitas")
         print("0 - Sair")
-        print("=" * 40)
+        print("=" * 70)
 
         opc = input("Escolha: ").strip()
 
@@ -419,9 +419,20 @@ def menu_admin(usuario):
 def menu_usuario(usuario):
     while True:
         clear()
-        print("\n" + "=" * 40)
+
+        print("\n" + "="*70)
+        print("   ██████╗ █████╗ ██╗     ████████╗██████╗  █████╗  ██████╗██╗  ██╗")
+        print("  ██╔════╝██╔══██╗██║     ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝")
+        print("  ██║     ███████║██║        ██║   ██████╔╝███████║██║     █████╔╝ ")
+        print("  ██║     ██╔══██║██║        ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ")
+        print("  ╚██████╗██║  ██║███████╗   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗")
+        print("   ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝")
+        print("="*70)
+        print("             🥗 Sistema de Rastreamento de Calorias 🥗")
+        print("="*70)
+
         print("   MENU PRINCIPAL")
-        print("=" * 40)
+        print("=" * 70)
         print("1 - Ver Receitas")
         print("2 - Contador de Calorias")
         print("3 - Ver Histórico de Calorias")
@@ -429,7 +440,7 @@ def menu_usuario(usuario):
         print("5 - Alterar Peso e Altura")
         print("6 - Editar Histórico de Calorias")
         print("0 - Sair")
-        print("=" * 40)
+        print("=" * 70)
 
         opc = input("Escolha: ").strip()
 
@@ -457,14 +468,14 @@ def menu_usuario(usuario):
 # ================ GERENCIAR USUÁRIOS ================
 def gerenciar_usuarios():
     while True:
-        print("\n" + "=" * 40)
+        print("\n" + "=" * 70)
         print("   GERENCIAR USUÁRIOS")
-        print("=" * 40)
+        print("=" * 70)
         print("1 - Listar Usuários")
         print("2 - Deletar Usuário")
         print("3 - Ver Detalhes de Usuário")
         print("0 - Voltar")
-        print("=" * 40)
+        print("=" * 70)
 
         opc = input("Escolha: ").strip()
 
@@ -481,9 +492,9 @@ def gerenciar_usuarios():
 
 
 def listar_usuarios():
-    print("\n" + "=" * 40)
+    print("\n" + "=" * 70)
     print("   LISTA DE USUÁRIOS")
-    print("=" * 40)
+    print("=" * 70)
 
     with open(arq_usuarios, "r", encoding="utf-8") as arquivo:
         usuarios = arquivo.readlines()
@@ -546,9 +557,9 @@ def ver_detalhes_usuario():
 
     for linha in usuarios:
         if f"Usuário: {usuario}" in linha:
-            print("\n" + "=" * 40)
+            print("\n" + "=" * 70)
             print("   DETALHES DO USUÁRIO")
-            print("=" * 40)
+            print("=" * 70)
             partes = linha.strip().split(", ")
             for parte in partes:
                 print(f"• {parte}")
@@ -562,15 +573,15 @@ def ver_detalhes_usuario():
 # ================ GERENCIAR ALIMENTOS ================
 def gerenciar_alimentos():
     while True:
-        print("\n" + "=" * 40)
+        print("\n" + "=" * 70)
         print("   GERENCIAR ALIMENTOS")
-        print("=" * 40)
+        print("=" * 70)
         print("1 - Listar Alimentos")
         print("2 - Adicionar Alimento")
         print("3 - Editar Alimento")
         print("4 - Deletar Alimento")
         print("0 - Voltar")
-        print("=" * 40)
+        print("=" * 70)
 
         opc = input("Escolha: ").strip()
 
@@ -589,9 +600,9 @@ def gerenciar_alimentos():
 
 
 def listar_alimentos():
-    print("\n" + "=" * 40)
+    print("\n" + "=" * 70)
     print("   LISTA DE ALIMENTOS")
-    print("=" * 40)
+    print("=" * 70)
 
     banco = carregar_alimentos()
     
@@ -698,15 +709,15 @@ def deletar_alimento():
 # ================ GERENCIAR RECEITAS ================
 def gerenciar_receitas():
     while True:
-        print("\n" + "=" * 40)
+        print("\n" + "=" * 70)
         print("   GERENCIAR RECEITAS")
-        print("=" * 40)
+        print("=" * 70)
         print("1 - Adicionar Receita")
         print("2 - Editar Receita")
         print("3 - Deletar Receita")
         print("4 - Ver Receitas")
         print("0 - Voltar")
-        print("=" * 40)
+        print("=" * 70)
 
         opc = input("Escolha: ").strip()
 
@@ -725,9 +736,9 @@ def gerenciar_receitas():
 
 
 def adicionar_receita():
-    print("\n" + "=" * 40)
+    print("\n" + "=" * 70)
     print("   ADICIONAR RECEITA")
-    print("=" * 40)
+    print("=" * 70)
 
     nome = input("Nome da receita: ").strip()
     ingredientes = input("Ingredientes (separados por vírgula): ").strip()
@@ -829,9 +840,20 @@ def deletar_receita():
 
 def ver_receitas():
     clear()
-    print("\n" + "=" * 40)
+
+    print("\n" + "="*70)
+    print("   ██████╗ █████╗ ██╗     ████████╗██████╗  █████╗  ██████╗██╗  ██╗")
+    print("  ██╔════╝██╔══██╗██║     ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝")
+    print("  ██║     ███████║██║        ██║   ██████╔╝███████║██║     █████╔╝ ")
+    print("  ██║     ██╔══██║██║        ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ")
+    print("  ╚██████╗██║  ██║███████╗   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗")
+    print("   ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝")
+    print("="*70)
+    print("             🥗 Sistema de Rastreamento de Calorias 🥗")
+    print("="*70)
+
     print("   RECEITAS DISPONÍVEIS")
-    print("=" * 40)
+    print("=" * 70)
 
     try:
         with open(arq_receitas, "r", encoding="utf-8") as arquivo:
@@ -857,9 +879,20 @@ def ver_receitas():
 # ================ CONTADOR DE CALORIAS ================
 def contador_calorico(usuario):
     clear()
-    print("\n" + "=" * 40)
+
+    print("\n" + "="*70)
+    print("   ██████╗ █████╗ ██╗     ████████╗██████╗  █████╗  ██████╗██╗  ██╗")
+    print("  ██╔════╝██╔══██╗██║     ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝")
+    print("  ██║     ███████║██║        ██║   ██████╔╝███████║██║     █████╔╝ ")
+    print("  ██║     ██╔══██║██║        ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ")
+    print("  ╚██████╗██║  ██║███████╗   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗")
+    print("   ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝")
+    print("="*70)
+    print("             🥗 Sistema de Rastreamento de Calorias 🥗")
+    print("="*70)
+
     print("   CONTADOR DE CALORIAS")
-    print("=" * 40)
+    print("=" * 70)
 
     banco = carregar_alimentos()
     
@@ -910,9 +943,9 @@ def contador_calorico(usuario):
                 f"{usuario}|{data_atual}|{alimento}|{quantidade}g|{calorias}\n"
             )
 
-    print(f"\n{'=' * 40}")
+    print(f"\n{'=' * 70}")
     print("   RESUMO DO DIA")
-    print(f"{'=' * 40}")
+    print(f"{'=' * 70}")
     print(f"Total de calorias consumidas: {kcal_total} kcal")
     print("Registros salvos com sucesso!")
 
@@ -922,9 +955,20 @@ def contador_calorico(usuario):
 # ================ VER HISTÓRICO DE CALORIAS ================
 def ver_historico_calorias(usuario):
     clear()
-    print("\n" + "=" * 40)
+
+    print("\n" + "="*70)
+    print("   ██████╗ █████╗ ██╗     ████████╗██████╗  █████╗  ██████╗██╗  ██╗")
+    print("  ██╔════╝██╔══██╗██║     ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝")
+    print("  ██║     ███████║██║        ██║   ██████╔╝███████║██║     █████╔╝ ")
+    print("  ██║     ██╔══██║██║        ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ")
+    print("  ╚██████╗██║  ██║███████╗   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗")
+    print("   ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝")
+    print("="*70)
+    print("             🥗 Sistema de Rastreamento de Calorias 🥗")
+    print("="*70)
+
     print("   HISTÓRICO DE CALORIAS")
-    print("=" * 40)
+    print("=" * 70)
 
     try:
         with open(arq_calorias_diarias, "r", encoding="utf-8") as arquivo:
@@ -971,9 +1015,20 @@ def ver_historico_calorias(usuario):
 def editar_historico_calorias(usuario):
     """Permite editar ou deletar registros do histórico de calorias"""
     clear()
-    print("\n" + "=" * 40)
+
+    print("\n" + "="*70)
+    print("   ██████╗ █████╗ ██╗     ████████╗██████╗  █████╗  ██████╗██╗  ██╗")
+    print("  ██╔════╝██╔══██╗██║     ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝")
+    print("  ██║     ███████║██║        ██║   ██████╔╝███████║██║     █████╔╝ ")
+    print("  ██║     ██╔══██║██║        ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ")
+    print("  ╚██████╗██║  ██║███████╗   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗")
+    print("   ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝")
+    print("="*70)
+    print("             🥗 Sistema de Rastreamento de Calorias 🥗")
+    print("="*70)
+
     print("   EDITAR HISTÓRICO DE CALORIAS")
-    print("=" * 40)
+    print("=" * 70)
 
     try:
         with open(arq_calorias_diarias, "r", encoding="utf-8") as arquivo:
@@ -1026,21 +1081,21 @@ def editar_historico_calorias(usuario):
         registro_selecionado = registros_usuario[indice].strip().split("|")
 
         # Mostrar detalhes do registro selecionado
-        print("\n" + "=" * 40)
+        print("\n" + "=" * 70)
         print("   REGISTRO SELECIONADO")
-        print("=" * 40)
+        print("=" * 70)
         print(f"Data: {registro_selecionado[1]}")
         print(f"Alimento: {registro_selecionado[2].capitalize()}")
         print(f"Quantidade: {registro_selecionado[3]}")
         print(f"Calorias: {registro_selecionado[4]} kcal")
 
         # Menu de edição
-        print("\n" + "-" * 40)
+        print("\n" + "-" * 70)
         print("O que deseja fazer?")
         print("1 - Alterar quantidade")
         print("2 - Deletar registro")
         print("0 - Cancelar")
-        print("-" * 40)
+        print("-" * 70)
 
         acao = input("\nSua escolha: ").strip()
 
@@ -1132,9 +1187,20 @@ def editar_historico_calorias(usuario):
 # ================ META DIÁRIA ================
 def meta(usuario_logado):
     clear()
-    print("\n" + "=" * 40)
+
+    print("\n" + "="*70)
+    print("   ██████╗ █████╗ ██╗     ████████╗██████╗  █████╗  ██████╗██╗  ██╗")
+    print("  ██╔════╝██╔══██╗██║     ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝")
+    print("  ██║     ███████║██║        ██║   ██████╔╝███████║██║     █████╔╝ ")
+    print("  ██║     ██╔══██║██║        ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ")
+    print("  ╚██████╗██║  ██║███████╗   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗")
+    print("   ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝")
+    print("="*70)
+    print("             🥗 Sistema de Rastreamento de Calorias 🥗")
+    print("="*70)
+
     print("   META DIÁRIA")
-    print("=" * 40)
+    print("=" * 70)
 
     # ======== LER USUÁRIO NO ARQUIVO ========
     try:
@@ -1231,9 +1297,21 @@ def meta(usuario_logado):
 # ================ ALTERAR CARACTERÍSTICAS ================
 def alterar_caracteristicas(usuario):
     clear()
-    print("\n" + "=" * 40)
+    
+    print("\n" + "="*70)
+    print("   ██████╗ █████╗ ██╗     ████████╗██████╗  █████╗  ██████╗██╗  ██╗")
+    print("  ██╔════╝██╔══██╗██║     ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝")
+    print("  ██║     ███████║██║        ██║   ██████╔╝███████║██║     █████╔╝ ")
+    print("  ██║     ██╔══██║██║        ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ")
+    print("  ╚██████╗██║  ██║███████╗   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗")
+    print("   ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝")
+    print("="*70)
+    print("             🥗 Sistema de Rastreamento de Calorias 🥗")
+    print("="*70)
+
+   
     print("   ALTERAR PESO E ALTURA")
-    print("=" * 40)
+    print("=" * 70)
     
     senha = input("\nDigite sua senha para confirmar: ")
 
